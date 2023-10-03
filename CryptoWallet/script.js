@@ -56,6 +56,18 @@ function displayForm(formID) {
     document.getElementById("outputDisplay").scrollIntoView({behavior: 'smooth', block: 'center'});
   
   }
+
+
+
+
+
+
+
+
+
+
+
+
   
   
   function getAllSpecialists() {
