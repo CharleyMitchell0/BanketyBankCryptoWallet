@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="style.css"></link>
+
+    <link rel="icon" type="image/x-icon" href="images/logo.png">  <!-- Favicon- the icon shown in the tab of the webpage-->
+
+    <title>Budgeting & Spending Support</title>
+
+</head>
+
+<body>
+
+  
+
+    <div id="header"> <!--The whole section for the top including nav-bar-->
+  
+      <div id="logo-section">
+  
+          <a href="home.html"><img src="images/logo.png" ></a>
+  
+          <div id="names">
+              <h1>Bankety Bank</h1>
+  
+              <p>Helping you bankety your bank</p>
+          </div>
+  
+      </div>
+  
+      
+  
+      <ul id="nav-bar">
+          
+          <li><a href="home.html" >Home</a></li>
+  
+          <li><a href="home.html">About</a></li>
+  
+          <li id="support-button"><a href="home.html">Get Support</a></li>
+  
+      </ul>
+  </div> <!-- end of  header / navbar-->
+
+<h1 class="title">Your Crypto Wallet</h1>
+
+<div class="largeBalance boxShadow">
+
+    <h3 class="largeBalanceTitle">Total Balance:</h3>
+
+    <h2 class="largeBalanceValue" id="totalBalance"></h2>
+
+</div>
+
+<div class="buttonContainer">
+
+    <div class="functionButton">
+        <button id="buyButton" onclick="displayModal()">Buy</button>
+    </div>
+    <div class="functionButton">
+        <button id="sellButton">Sell</button>
+    </div>
+    <div class="functionButton">
+        <button id="addCashButton">Add Cash</button>
+    </div>
+    <div class="functionButton">
+        <button id="cashOutButton">Cash Out</button>
+    </div>
+</div>
+
+
+<div class="cryptoBalanceContainer">
+    <div class="cryptoBalance">
+        <h1 class="cryptoType" >Bitcoin</h1>
+        <p id="BTCBalance"></p>
+    </div>
+
+    <div class="cryptoBalance">
+        <h1 class="cryptoType" >Bankety Bank Coin</h1>
+        <p id="BBKBalance"></p>
+    </div>
+
+    <div class="cryptoBalance">
+        <h1 class="cryptoType" >High Elf Coin</h1>
+        <p id="HLFBalance"></p>
+    </div>
+
+    <div class="cryptoBalance">
+        <h1 class="cryptoType" >Dogecoin</h1>
+        <p id="DOGEBalance"></p>
+    </div>
+
+</div> <!--end of cyptoBalanceContainer-->
+
+<div class="modal" id="id01">
+
+    
+
+    <!-- Modal Content -->
+  <div class="modal-content animate">
+    <span onclick="hideModal()" class="close" title="Close Modal">&times;</span>
+
+    <div class="largeBalance">
+
+        <h3 class="largeBalanceTitle">Your GBP Balance:</h3>
+
+    <h2 class="largeBalanceValue" id="GBPBalance"></h2>
+
+    </div>
+
+    <form>
+
+        <div>
+            <p>From:</p>
+            
+            <input type="text">
+
+
+        </div>
+
+        <div>
+
+        </div>
+
+    </form>
+
+
+    <button type="button" class="cancelbtn" onclick="hideModal()">Cancel</button>
+    </div>
+
+</div>
+
+
+  <script src="script.js"></script>    
+
+</body>
+
+</html>
