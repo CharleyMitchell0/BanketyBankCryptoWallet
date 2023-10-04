@@ -28,7 +28,12 @@ function displayBalances() {
 }
 
 
-
+function togglePopup() {
+  // window.alert("Popping up");
+  var popup = document.getElementById("publicKeyPopup");
+  popup.innerHTML = "Your public key is:";
+  popup.classList.toggle("show");
+}
 
 function displayModal() {
     document.getElementById("id01").style.display = "block";
