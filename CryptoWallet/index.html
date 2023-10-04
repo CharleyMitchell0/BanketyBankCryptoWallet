@@ -119,12 +119,12 @@
 
     </div>
 
-    <form class="modalForm">
+    <form id="buyForm">
 
         <div class="formLineContainer">
             <label>From:</label>
             
-            <input type="text" >
+            <input type="text" id="buyStartCurrency">
             <p id="buyRate" class="rateOutput"></p>
 
         </div>
@@ -134,7 +134,7 @@
         <div class="formLineContainer">
             <label for="buyCurrency">To:</label>
 
-            <span class=""><select onchange="displayRate()" class="oneLineSelect" id="buyCurrency" onchange="displayRate('GBP')">
+            <span class=""><select onchange="displayRate('buy')" class="oneLineSelect" id="buyCurrency" >
                 <option value="" disabled selected>Select:</option>
                 <option value="BTC">BTC</option>
                 <option value="BBK">BBK</option>
@@ -142,7 +142,7 @@
                 <option value="DOGE">DOGE</option>
             </select>
             
-            <input type="text" class="oneLineText"></span>
+            <input type="text" class="oneLineText" id="buyEndCurrency"></span>
 
         </div>
 
@@ -176,12 +176,12 @@
 
     </div>
 
-    <form>
+    <form id="sellForm">
 
         <div class="formLineContainer">
             <label>From:</label>
 
-            <span class=""><select onchange="displayRate()" class="oneLineSelect">
+            <span class=""><select onchange="displayRate('sell')" class="oneLineSelect" id="sellCurrency">
                 <option value="" disabled selected>Select:</option>
                 <option value="BTC">BTC</option>
                 <option value="BBK">BBK</option>
@@ -190,6 +190,7 @@
             </select>
             
             <input type="text" class="oneLineText"></span>
+            <p id="sellRate" class="rateOutput"></p>
             
 
         </div>
@@ -212,7 +213,7 @@
         
     </div>
 
-</div> <!--end of SellModal -->
+</div> <!--end of Sell Modal -->
 
 
 

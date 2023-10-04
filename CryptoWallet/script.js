@@ -27,31 +27,50 @@ function displayBalances() {
     document.getElementById("GBPBalance").innerHTML = "£ " + GBPBalance;
 }
 
-
+//toggles popup for public key
 function togglePopup() {
-  // window.alert("Popping up");
+  
   var popup = document.getElementById("publicKeyPopup");
   popup.innerHTML = "Your public key is:";
   popup.classList.toggle("show");
 }
 
+
+//displays modal for each function 
 function displayModal(button) {
     document.getElementById(button + "Modal").style.display = "block";
 }
 
+
+//hides the modal and resets form
 function hideModal(button) {
+  document.getElementById(button + "Form").reset();
+  document.getElementById(button + "Rate").innerHTML = "";
     document.getElementById(button + "Modal").style.display = "none";
-    document.getElementsByClassName('modalForm').reset();
 }
 
-function displayRate() {
 
-  var currency = document.querySelector("#buyCurrency").value;
+//displays rate in buy and sell modal
+function displayRate(functionModal) {
+    
+  var currency = document.querySelector("#" + functionModal + "Currency").value;
 
   GBPRate = getGBPRate(currency);
 
-    document.getElementById("buyRate").innerHTML = "1 GBP = " + GBPRate + " " + currency;
+  
+  switch(functionModal) {
+    case "buy": 
+      document.getElementById(functionModal + "Rate").innerHTML = `1 GBP =  ${GBPRate.toFixed(8)} ${currency}`;
+      break;
 
+    case "sell":
+
+      currencyRate = 1 / GBPRate;
+      document.getElementById(functionModal + "Rate").innerHTML = `1 ${currency} =  ${currencyRate.toFixed(2)} GBP`;
+      
+      
+      break;
+  }
   }
 
 
@@ -79,15 +98,45 @@ function getGBPRate(currency) {
       break;
   } 
 
-
 }
 
+function updateConversion() {
+  var startCurrencyInput = document.getElementById("buyStartCurrency");
+  var endCurrencyInput = document.getElementById("buyEndCurrency");
+  var selectedCurrency = document.getElementById("buyCurrency").value;
 
+  if (startCurrencyInput === document.activeElement) {
+      // If "buyStartCurrency" input is focused, update "buyEndCurrency"
+      var startCurrencyValue = parseFloat(startCurrencyInput.value);
+      var rate = getGBPRate(selectedCurrency);
+      var convertedValue = startCurrencyValue * rate;
 
+      if (!isNaN(convertedValue)) {
+          endCurrencyInput.value = convertedValue.toFixed(6); // Limit decimal places if needed
+      } else {
+          endCurrencyInput.value = "";
+      }
+  } else {
+      // If "buyEndCurrency" input is focused, update "buyStartCurrency"
+      var endCurrencyValue = parseFloat(endCurrencyInput.value);
+      var inverseRate = 1 / getGBPRate(selectedCurrency);
+      var convertedValue = endCurrencyValue * inverseRate;
 
+      if (!isNaN(convertedValue)) {
+          startCurrencyInput.value = convertedValue.toFixed(6); // Limit decimal places if needed
+      } else {
+          startCurrencyInput.value = "";
+      }
+  }
+}
 
+// Add event listeners to the input fields
+document.getElementById("buyStartCurrency").addEventListener("input", updateConversion);
+document.getElementById("buyCurrency").addEventListener("change", updateConversion);
+document.getElementById("buyEndCurrency").addEventListener("input", updateConversion);
 
-  
+// Initial conversion when the page loads
+updateConversion();
   
   function getAllSpecialists() {
     fetch('http://localhost:8080/all')
