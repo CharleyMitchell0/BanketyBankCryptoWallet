@@ -358,7 +358,7 @@
     border: none;
     width: 50%; /* Could be more or less, depending on screen size */
     min-width: 600px;
-    height: 80%;
+    height: 60%;
     border-radius: 40px;
     padding: 60px;
     flex-direction: column;
