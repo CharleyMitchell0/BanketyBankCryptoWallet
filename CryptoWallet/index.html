@@ -119,19 +119,22 @@
 
     </div>
 
-    <form>
+    <form class="modalForm">
 
         <div class="formLineContainer">
             <label>From:</label>
             
             <input type="text" >
+            <p id="buyRate" class="rateOutput"></p>
 
         </div>
 
-        <div class="formLineContainer">
-            <label>To:</label>
+        
 
-            <span class=""><select onchange="displayRate()" class="oneLineSelect">
+        <div class="formLineContainer">
+            <label for="buyCurrency">To:</label>
+
+            <span class=""><select onchange="displayRate()" class="oneLineSelect" id="buyCurrency" onchange="displayRate('GBP')">
                 <option value="" disabled selected>Select:</option>
                 <option value="BTC">BTC</option>
                 <option value="BBK">BBK</option>
@@ -209,9 +212,115 @@
         
     </div>
 
-</div> <!--end of Buy Modal -->
+</div> <!--end of SellModal -->
 
 
+
+<div class="modal" id="addCashModal">
+
+    <!-- Modal Content -->
+  <div class="modal-content animate">
+    <span onclick="hideModal('addCash')" class="close" title="Close Modal">&times;</span>
+
+    <div class="largeBalance">
+
+        <h3 class="largeBalanceTitle">Your GBP Balance:</h3>
+
+    <h2 class="largeBalanceValue" id="GBPBalance"></h2>
+
+    </div>
+
+    <form>
+
+        <div class="formLineContainer">
+            <label>From:</label>
+
+            <span class=""><select onchange="displayRate()" class="oneLineSelect">
+                <option value="" disabled selected>Select:</option>
+                <option value="BTC">BTC</option>
+                <option value="BBK">BBK</option>
+                <option value="HLF">HLF</option>
+                <option value="DOGE">DOGE</option>
+            </select>
+            
+            <input type="text" class="oneLineText"></span>
+            
+
+        </div>
+
+        <div class="formLineContainer">
+            <label>To:</label>
+            <input type="text" >
+
+        </div>
+
+        <div class="formButtonContainer">
+        
+        <button type="button" class="cancelbtn" onclick="hideModal('addCash')">Cancel</button>
+
+        <button type="button" class="functionModalButton" id="addCashModalButton" onclick="">Add Cash</button>
+        
+        </div>
+    </form>
+
+        
+    </div>
+
+</div> <!--end of add cash Modal -->
+
+
+
+<div class="modal" id="cashOutModal">
+
+    <!-- Modal Content -->
+  <div class="modal-content animate">
+    <span onclick="hideModal('cashOut')" class="close" title="Close Modal">&times;</span>
+
+    <div class="largeBalance">
+
+        <h3 class="largeBalanceTitle">Your GBP Balance:</h3>
+
+    <h2 class="largeBalanceValue" id="GBPBalance"></h2>
+
+    </div>
+
+    <form>
+
+        <div class="formLineContainer">
+            <label>From:</label>
+
+            <span class=""><select onchange="displayRate()" class="oneLineSelect">
+                <option value="" disabled selected>Select:</option>
+                <option value="BTC">BTC</option>
+                <option value="BBK">BBK</option>
+                <option value="HLF">HLF</option>
+                <option value="DOGE">DOGE</option>
+            </select>
+            
+            <input type="text" class="oneLineText"></span>
+            
+
+        </div>
+
+        <div class="formLineContainer">
+            <label>To:</label>
+            <input type="text" >
+
+        </div>
+
+        <div class="formButtonContainer">
+        
+        <button type="button" class="cancelbtn" onclick="hideModal('cashOut')">Cancel</button>
+
+        <button type="button" class="functionModalButton" id="cashOutModalButton" onclick="">Cash Out</button>
+        
+        </div>
+    </form>
+
+        
+    </div>
+
+</div> <!--end of cash out Modal -->
 
 
   <script src="script.js"></script>    

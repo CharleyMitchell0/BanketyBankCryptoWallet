@@ -41,32 +41,46 @@ function displayModal(button) {
 
 function hideModal(button) {
     document.getElementById(button + "Modal").style.display = "none";
+    document.getElementsByClassName('modalForm').reset();
 }
 
+function displayRate() {
 
+  var currency = document.querySelector("#buyCurrency").value;
 
-function displayForm(formID) {
+  GBPRate = getGBPRate(currency);
 
-    document.getElementById(formID).style.display = "flex";
-  
-    document.getElementById(formID).scrollIntoView({behavior: 'smooth', block: 'center'});
-  }
-  
-  function  submitForm() {
-    
-    selectSpecialist();
-  
-    document.getElementById("outputDisplay").style.display = "block";
-  
-    document.getElementById("outputDisplay").scrollIntoView({behavior: 'smooth', block: 'center'});
-  
+    document.getElementById("buyRate").innerHTML = "1 GBP = " + GBPRate + " " + currency;
+
   }
 
 
+function getGBPRate(currency) {
+  switch(currency){
+
+    case "BTC": 
+      GBPRate = 0.000044292969557;
+      return GBPRate;
+      break;
+
+    case "BBK": 
+      GBPRate = 0.00334234624;
+      return GBPRate;
+      break;
+
+      case "HLF": 
+      GBPRate = 10.09832679798;
+      return GBPRate;
+      break;
+
+      case "DOGE": 
+      GBPRate = 19.90261913532077;
+      return GBPRate;
+      break;
+  } 
 
 
-
-
+}
 
 
 

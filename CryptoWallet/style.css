@@ -263,7 +263,7 @@
   touch-action: manipulation;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
 }
 
@@ -444,6 +444,10 @@
     font-size: 1.2em;
   }
 
+  .rateOutput {
+    height: 1em;
+  }
+
 .formButtonContainer {
   display: flex;
   justify-content: space-around;
@@ -480,4 +484,12 @@
 
 #sellModalButton {
   background-color: var(--accentColour2);
+}
+
+#addCashModalButton {
+  background-color: var(--accentColour5);
+}
+
+#cashOutModalButton {
+  background-color: var(--accentColour4);
 }
