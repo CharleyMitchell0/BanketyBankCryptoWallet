@@ -459,7 +459,7 @@
    height: 80px;
    font-size: 2em;
    font-weight: bolder;
-   
+   margin-top: 20px;
 
 }
 
@@ -472,4 +472,12 @@
 
 .cancelbtn:hover {
   background-color: #bdbdc4;
+}
+
+#buyModalButton {
+  background-color: var(--accentColour1);
+}
+
+#sellModalButton {
+  background-color: var(--accentColour2);
 }

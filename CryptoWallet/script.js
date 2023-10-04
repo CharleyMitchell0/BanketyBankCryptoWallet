@@ -35,12 +35,12 @@ function togglePopup() {
   popup.classList.toggle("show");
 }
 
-function displayModal() {
-    document.getElementById("id01").style.display = "block";
+function displayModal(button) {
+    document.getElementById(button + "Modal").style.display = "block";
 }
 
-function hideModal() {
-    document.getElementById("id01").style.display = "none";
+function hideModal(button) {
+    document.getElementById(button + "Modal").style.display = "none";
 }
 
 
