@@ -63,16 +63,17 @@
 <div class="buttonContainer">
 
     <div class="functionButton">
-        <button id="buyButton" onclick="displayModal()">Buy</button>
+        
+        <button id="buyButton" onclick="displayModal()"><img src="images/plus.png" alt="Plus Symbol" class="functionIcon">Buy</button>
     </div>
     <div class="functionButton">
-        <button id="sellButton">Sell</button>
+        <button id="sellButton"><img src="images/minus.png" alt="Minus Symbol" class="functionIcon">Sell</button>
     </div>
     <div class="functionButton">
-        <button id="addCashButton">Add Cash</button>
+        <button id="addCashButton"><img src="images/moneyIn.png" alt="Cash In Symbol" class="functionIcon">Add Cash</button>
     </div>
     <div class="functionButton">
-        <button id="cashOutButton">Cash Out</button>
+        <button id="cashOutButton"><img src="images/moneyOut.png" alt="Cash Out Symbol" class="functionIcon">Cash Out</button>
     </div>
 </div>
 
@@ -118,21 +119,47 @@
 
     <form>
 
-        <div>
-            <p>From:</p>
+        <div class="formLineContainer">
+            <label>From:</label>
             
-            <input type="text">
-
-
-        </div>
-
-        <div>
+            <input type="text" >
 
         </div>
 
+        <div class="formLineContainer">
+            <label>To:</label>
+
+            <span class=""><select onchange="displayRate()" class="oneLineSelect">
+                <option value="" disabled selected>Select:</option>
+                <option value="BTC">BTC</option>
+                <option value="BBK">BBK</option>
+                <option value="HLF">HLF</option>
+                <option value="DOGE">DOGE</option>
+            </select>
+            
+            <input type="text" class="oneLineText"></span>
+
+        </div>
+
+        <div class="formButtonContainer">
+        
+        <button type="button" class="cancelbtn" onclick="hideModal()">Cancel</button>
+
+        <button type="button" class="functionModalButton" id="buyModalButton" onclick="">Buy</button>
+        
+        </div>
     </form>
 
-        <!-- Modal Content -->
+        
+    </div>
+
+</div>
+
+
+
+
+
+        <!-- Modal Content
   <div class="modal-content animate">
     <span onclick="hideModal()" class="close" title="Close Modal">&times;</span>
 
@@ -164,7 +191,7 @@
     <button type="button" class="cancelbtn" onclick="hideModal()">Cancel</button>
     </div>
 
-</div>
+</div> -->
 
 
   <script src="script.js"></script>    
