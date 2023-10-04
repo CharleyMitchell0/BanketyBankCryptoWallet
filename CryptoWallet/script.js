@@ -135,8 +135,29 @@ document.getElementById("buyStartCurrency").addEventListener("input", updateConv
 document.getElementById("buyCurrency").addEventListener("change", updateConversion);
 document.getElementById("buyEndCurrency").addEventListener("input", updateConversion);
 
-// Initial conversion when the page loads
-updateConversion();
+
+function buyCrypto() {
+
+  var startCurrencyInput = document.getElementById("buyStartCurrency").value;
+  var endCurrencyInput = document.getElementById("buyEndCurrency").value;
+  var selectedCurrency = document.getElementById("buyCurrency").value;
+
+  if(confirm(`Are you sure you want to buy ${endCurrencyInput} ${selectedCurrency} with £${startCurrencyInput}?`)) {
+      GBPBalance = GBPBalance - startCurrencyInput;
+     
+      hideModal('buy');
+      return GBPBalance; 
+  }
+
+
+}
+
+
+
+
+
+
+
   
   function getAllSpecialists() {
     fetch('http://localhost:8080/all')
