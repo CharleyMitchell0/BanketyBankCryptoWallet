@@ -10,6 +10,7 @@ var DOGEBalance = 3685;
 
 var GBPBalance = 264.83;
 
+
 var BTCRate = 0.000044292969557;
 
 var BBKRate = 0.00334234624;
@@ -18,6 +19,10 @@ var HLFRate  = 10.09832679798;
 
 var DOGERate = 19.90261913532077;
 
+
+var currentAccountBalance = 560.34;
+
+var savingsAccountBalance = 1231245.98;
 
 function displayBalances() {
 
@@ -45,17 +50,20 @@ function toggleBalance() {
   document.getElementById("largeHomeBalance").style.transition = "all 0.3s";
 
   if (largeBalance.classList.contains('largeTotalBalance')) {
+
     document.getElementById("largeHomeBalanceTitle").innerHTML = "GBP Balance:";
     document.getElementById("largeHomeBalanceValue").innerHTML = "£" + GBPBalance;
     largeBalance.classList.remove("largeTotalBalance");
     largeBalance.classList.add("largeGBPBalance");
+
   } else {
+
     document.getElementById("largeHomeBalanceTitle").innerHTML = "Total Balance:";
     document.getElementById("largeHomeBalanceValue").innerHTML = "£" + totalBalance;
     largeBalance.classList.add("largeTotalBalance");
     largeBalance.classList.remove("largeGBPBalance");
-  }
 
+  }
 }
 
 
@@ -84,18 +92,33 @@ function displayRate(functionModal) {
 
   
   switch(functionModal) {
+
     case "buy": 
       document.getElementById(functionModal + "Rate").innerHTML = `1 GBP =  ${GBPRate.toFixed(8)} ${currency}`;
       break;
 
     case "sell":
-
       var currencyRate = 1 / GBPRate;
       document.getElementById(functionModal + "Rate").innerHTML = `1 ${currency} =  ${currencyRate.toFixed(2)} GBP`;
-      
-      
       break;
   }
+  }
+
+  function displayAccountBalance() {
+    var account = document.querySelector("#addCashAccount").value;
+
+    switch(account) {
+
+      case "currentAccount": 
+        var balance = currentAccountBalance;
+        break;
+
+      case "savingsAccount":
+        var balance = savingsAccountBalance;
+        break;
+    }
+
+    document.getElementById("addCashAccountBalance").innerHTML = "Balance = £" + balance;
   }
 
 
@@ -173,7 +196,6 @@ function buyCrypto() {
       hideModal('buy');
       return GBPBalance; 
   }
-
 
 }
 

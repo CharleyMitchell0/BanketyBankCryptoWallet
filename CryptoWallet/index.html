@@ -126,7 +126,7 @@
             <label>From:</label>
             
             <input type="text" id="buyStartCurrency">
-            <p id="buyRate" class="rateOutput"></p>
+            <p id="buyRate" class="output"></p>
 
         </div>
 
@@ -191,7 +191,7 @@
             </select>
             
             <input type="text" class="oneLineText"></span>
-            <p id="sellRate" class="rateOutput"></p>
+            <p id="sellRate" class="output"></p>
             
 
         </div>
@@ -237,13 +237,13 @@
         <div class="formLineContainer">
             <label for="addCashAccount">From:</label>
 
-            <span class=""><select class="accountSelect" id="addCashAccount">
+            <span class=""><select class="accountSelect" id="addCashAccount" onchange="displayAccountBalance()">
                 <option value="" disabled selected>Select an account:</option>
                 <option value="currentAccount">Current Account</option>
                 <option value="savingsAccount">Savings Account</option>
                 
             </select>
-            
+            <p id="addCashAccountBalance" class="output"></p>
 
         </div>
 
@@ -283,29 +283,28 @@
 
     </div>
 
-    <form>
+    <form id="cashOutForm">
+        
+        <div class="formLineContainer">
+            <label for="cashOutAmount">Amount:</label>
+            <input type="text" id="cashOutAmount">
+
+        </div>
 
         <div class="formLineContainer">
-            <label>From:</label>
+            <label for="cashOutAccount">To:</label>
 
-            <span class=""><select onchange="displayRate()" class="oneLineSelect">
-                <option value="" disabled selected>Select:</option>
-                <option value="BTC">BTC</option>
-                <option value="BBK">BBK</option>
-                <option value="HLF">HLF</option>
-                <option value="DOGE">DOGE</option>
+            <span class=""><select class="accountSelect" id="cashOutAccount">
+                <option value="" disabled selected>Select an account:</option>
+                <option value="currentAccount">Current Account</option>
+                <option value="savingsAccount">Savings Account</option>
+                
             </select>
             
-            <input type="text" class="oneLineText"></span>
-            
 
         </div>
 
-        <div class="formLineContainer">
-            <label>To:</label>
-            <input type="text" >
-
-        </div>
+        
 
         <div class="formButtonContainer">
         
