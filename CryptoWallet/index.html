@@ -79,7 +79,7 @@
 </div>
 
 
-<div class="cryptoBalanceContainer">
+<div class="cryptoBalanceContainer boxShadow">
     <div class="cryptoBalance">
         <h1 class="cryptoType" >Bitcoin</h1>
         <p id="BTCBalance"></p>
@@ -232,27 +232,24 @@
 
     </div>
 
-    <form>
+    <form id="addCashForm">
 
         <div class="formLineContainer">
-            <label>From:</label>
+            <label for="addCashAccount">From:</label>
 
-            <span class=""><select onchange="displayRate()" class="oneLineSelect">
-                <option value="" disabled selected>Select:</option>
-                <option value="BTC">BTC</option>
-                <option value="BBK">BBK</option>
-                <option value="HLF">HLF</option>
-                <option value="DOGE">DOGE</option>
+            <span class=""><select class="accountSelect" id="addCashAccount">
+                <option value="" disabled selected>Select an account:</option>
+                <option value="currentAccount">Current Account</option>
+                <option value="savingsAccount">Savings Account</option>
+                
             </select>
-            
-            <input type="text" class="oneLineText"></span>
             
 
         </div>
 
         <div class="formLineContainer">
-            <label>To:</label>
-            <input type="text" >
+            <label for="addCashAmount">Amount:</label>
+            <input type="text" id="addCashAmount">
 
         </div>
 

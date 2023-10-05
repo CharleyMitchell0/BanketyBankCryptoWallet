@@ -10,6 +10,13 @@ var DOGEBalance = 3685;
 
 var GBPBalance = 264.83;
 
+var BTCRate = 0.000044292969557;
+
+var BBKRate = 0.00334234624;
+
+var HLFRate  = 10.09832679798;
+
+var DOGERate = 19.90261913532077;
 
 
 function displayBalances() {
@@ -83,7 +90,7 @@ function displayRate(functionModal) {
 
     case "sell":
 
-      currencyRate = 1 / GBPRate;
+      var currencyRate = 1 / GBPRate;
       document.getElementById(functionModal + "Rate").innerHTML = `1 ${currency} =  ${currencyRate.toFixed(2)} GBP`;
       
       
@@ -96,23 +103,23 @@ function getGBPRate(currency) {
   switch(currency){
 
     case "BTC": 
-      GBPRate = 0.000044292969557;
-      return GBPRate;
+      rate = BTCRate;
+      return rate;
       break;
 
     case "BBK": 
-      GBPRate = 0.00334234624;
-      return GBPRate;
+      rate = BBKRate;
+      return rate;
       break;
 
       case "HLF": 
-      GBPRate = 10.09832679798;
-      return GBPRate;
+      rate = HLFRate;
+      return rate;
       break;
 
       case "DOGE": 
-      GBPRate = 19.90261913532077;
-      return GBPRate;
+      rate = DOGERate;
+      return rate;
       break;
   } 
 
