@@ -14,7 +14,7 @@ var GBPBalance = 264.83;
 
 function displayBalances() {
 
-    document.getElementById("totalBalance").innerHTML = "£ " + totalBalance;
+    document.getElementById("largeHomeBalanceValue").innerHTML = "£ " + totalBalance;
 
     document.getElementById("BTCBalance").innerHTML = "BTC " + BTCBalance;
 
@@ -23,8 +23,6 @@ function displayBalances() {
     document.getElementById("HLFBalance").innerHTML = "HLF " + HLFBalance;
 
     document.getElementById("DOGEBalance").innerHTML = "DOGE " + DOGEBalance;
-
-    document.getElementById("GBPBalance").innerHTML = "£ " + GBPBalance;
 }
 
 //toggles popup for public key
@@ -33,6 +31,24 @@ function togglePopup() {
   var popup = document.getElementById("publicKeyPopup");
   popup.innerHTML = "Your public key is:";
   popup.classList.toggle("show");
+}
+
+function toggleBalance() {
+  var largeBalance = document.getElementById("largeHomeBalance");
+  document.getElementById("largeHomeBalance").style.transition = "all 0.3s";
+
+  if (largeBalance.classList.contains('largeTotalBalance')) {
+    document.getElementById("largeHomeBalanceTitle").innerHTML = "GBP Balance:";
+    document.getElementById("largeHomeBalanceValue").innerHTML = "£" + GBPBalance;
+    largeBalance.classList.remove("largeTotalBalance");
+    largeBalance.classList.add("largeGBPBalance");
+  } else {
+    document.getElementById("largeHomeBalanceTitle").innerHTML = "Total Balance:";
+    document.getElementById("largeHomeBalanceValue").innerHTML = "£" + totalBalance;
+    largeBalance.classList.add("largeTotalBalance");
+    largeBalance.classList.remove("largeGBPBalance");
+  }
+
 }
 
 
@@ -44,8 +60,10 @@ function displayModal(button) {
 
 //hides the modal and resets form
 function hideModal(button) {
+
+  if(button == 'buy' ||  button ==  'sell') {
   document.getElementById(button + "Form").reset();
-  document.getElementById(button + "Rate").innerHTML = "";
+  document.getElementById(button + "Rate").innerHTML = ""; }
     document.getElementById(button + "Modal").style.display = "none";
 }
 

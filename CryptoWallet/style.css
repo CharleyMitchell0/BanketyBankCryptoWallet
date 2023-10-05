@@ -29,6 +29,7 @@
     justify-content: space-between;
     flex-wrap: wrap;
     margin-top: 5px;
+    /* z-index: 1; */
   }
   
   #logo-section {
@@ -196,33 +197,48 @@
 }
   
   .boxShadow {
-    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+    box-shadow: 3px 3px 5px #888888;
   }
 
   .largeBalance {
     width: 600px;
     height: 140px;
-    background-color: var(--darkColour2);
+    background-color: var(--accentColour3);
     display: flex;
     margin: 20px auto;
     border-radius: 40px;
     padding: 20px 30px;
     flex-direction: column;
+    cursor: pointer;
   }
 
   .largeBalanceTitle {
-    color: white;
+    color: var(--darkColour1);
     font-size: 2em;
     align-self: flex-start;
     margin: 0;
   }
 
   .largeBalanceValue {
-    color: var(--accentColour3);
+    color: var(--darkColour2);
     font-size: 4em;
     font-weight: normal;
     margin-top: 20px;
   }
+
+  .largeTotalBalance {
+    background-color: var(--darkColour2);
+  }
+
+  .largeTotalBalance .largeBalanceTitle {
+    color: white;
+  }
+
+  .largeTotalBalance .largeBalanceValue {
+    color: var(--accentColour3);
+  }
+
+
 
   .buttonContainer {
     display: flex;
@@ -339,7 +355,7 @@
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    z-index: 2; /* Sit on top */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
