@@ -24,9 +24,12 @@ var currentAccountBalance = 560.34;
 
 var savingsAccountBalance = 1231245.98;
 
+
+var publicKey;
+
 function displayBalances() {
 
-    document.getElementById("largeHomeBalanceValue").innerHTML = "£ " + totalBalance;
+    document.getElementById("largeHomeBalanceValue").innerHTML = "£" + totalBalance;
 
     document.getElementById("BTCBalance").innerHTML = "BTC " + BTCBalance;
 
@@ -35,6 +38,12 @@ function displayBalances() {
     document.getElementById("HLFBalance").innerHTML = "HLF " + HLFBalance;
 
     document.getElementById("DOGEBalance").innerHTML = "DOGE " + DOGEBalance;
+
+    document.getElementById("buyGBPBalance").innerHTML = "£" + GBPBalance;
+
+    document.getElementById("addCashGBPBalance").innerHTML = "£" + GBPBalance;
+
+    document.getElementById("cashOutGBPBalance").innerHTML = "£" + GBPBalance;
 }
 
 //toggles popup for public key
@@ -66,6 +75,10 @@ function toggleBalance() {
   }
 }
 
+function sellCryptoBalance() {
+  
+}
+
 
 //displays modal for each function 
 function displayModal(button) {
@@ -73,12 +86,19 @@ function displayModal(button) {
 }
 
 
-//hides the modal and resets form
+//hides the modal and resets forms
 function hideModal(button) {
 
   if(button == 'buy' ||  button ==  'sell') {
+  document.getElementById(button + "Rate").innerHTML = ""; 
+
+} else if (button == 'addCash') {
+
+  document.getElementById(button + "AccountBalance").innerHTML ="";
+
+}
+
   document.getElementById(button + "Form").reset();
-  document.getElementById(button + "Rate").innerHTML = ""; }
     document.getElementById(button + "Modal").style.display = "none";
 }
 
