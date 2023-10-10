@@ -41,6 +41,8 @@ function displayBalances() {
 
     document.getElementById("buyGBPBalance").innerHTML = "£" + GBPBalance;
 
+    document.getElementById("sellCryptoBalance").innerHTML = "BTC " + BTCBalance;
+
     document.getElementById("addCashGBPBalance").innerHTML = "£" + GBPBalance;
 
     document.getElementById("cashOutGBPBalance").innerHTML = "£" + GBPBalance;
@@ -54,10 +56,14 @@ function togglePopup() {
   popup.classList.toggle("show");
 }
 
+//changes between total & GBP balance
 function toggleBalance() {
+
+  //selects the homepage balance
   var largeBalance = document.getElementById("largeHomeBalance");
   document.getElementById("largeHomeBalance").style.transition = "all 0.3s";
 
+  //if set to total balance then change to GBP
   if (largeBalance.classList.contains('largeTotalBalance')) {
 
     document.getElementById("largeHomeBalanceTitle").innerHTML = "GBP Balance:";
@@ -65,6 +71,7 @@ function toggleBalance() {
     largeBalance.classList.remove("largeTotalBalance");
     largeBalance.classList.add("largeGBPBalance");
 
+    //if set to GBP then change to total
   } else {
 
     document.getElementById("largeHomeBalanceTitle").innerHTML = "Total Balance:";
@@ -75,8 +82,44 @@ function toggleBalance() {
   }
 }
 
+//on change of sell select box, also uses display rate and get sell balance 
 function sellCryptoBalance() {
-  
+
+  displayRate('sell');
+
+  var currency = document.querySelector('#sellCurrency').value;
+
+  getSellBalance(currency);
+
+  document.getElementById("sellCryptoBalanceTitle").innerHTML = `Your ${currency} Balance:`;
+  document.getElementById("sellCryptoBalance").innerHTML = currency + " " + balance;
+
+}
+
+function getSellBalance(currency) {
+
+  switch(currency){
+
+    case "BTC": 
+      balance = BTCBalance;
+      return balance;
+      break;
+
+    case "BBK": 
+      balance = BBKBalance;
+      return balance;
+      break;
+
+      case "HLF": 
+      balance = HLFBalance;
+      return balance;
+      break;
+
+      case "DOGE": 
+      balance = DOGEBalance;
+      return balance;
+      break;
+  }
 }
 
 

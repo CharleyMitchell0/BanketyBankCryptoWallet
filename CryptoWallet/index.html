@@ -12,7 +12,7 @@
 
     <link rel="icon" type="image/x-icon" href="images/logo.png">  <!-- Favicon- the icon shown in the tab of the webpage-->
 
-    <title>Budgeting & Spending Support</title>
+    <title>Crypto Wallet</title>
 
 </head>
 
@@ -171,9 +171,9 @@
 
     <div class="largeBalance">
 
-        <h3 class="largeBalanceTitle">Your GBP Balance:</h3>
+        <h3 class="largeBalanceTitle" id="sellCryptoBalanceTitle">Your BTC Balance:</h3>
 
-    <h2 class="largeBalanceValue" id="GBPBalance"></h2>
+    <h2 class="largeBalanceValue" id="sellCryptoBalance"></h2>
 
     </div>
 
@@ -182,7 +182,7 @@
         <div class="formLineContainer">
             <label>From:</label>
 
-            <span class=""><select onchange="displayRate('sell')" class="oneLineSelect" id="sellCurrency">
+            <span class=""><select onchange="sellCryptoBalance()" class="oneLineSelect" id="sellCurrency">
                 <option value="" disabled selected>Select:</option>
                 <option value="BTC">BTC</option>
                 <option value="BBK">BBK</option>
