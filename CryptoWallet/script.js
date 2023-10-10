@@ -255,44 +255,72 @@ function buyCrypto() {
 
   if(confirm(`Are you sure you want to buy ${endCurrencyInput} ${selectedCurrency} with £${startCurrencyInput}?`)) {
       GBPBalance = GBPBalance - startCurrencyInput;
+
+      
+     changeCryptoBalance(selectedCurrency, endCurrencyInput);
+      
+     displayBalances();
      
       hideModal('buy');
-      return GBPBalance; 
   }
+
+}
+
+function changeCryptoBalance(currency, endCurrencyInput) {
+  switch(currency){
+
+        case "BTC": 
+          BTCBalance = BTCBalance + endCurrencyInput;
+          break;
+    
+        case "BBK": 
+          rate = BBKRate;
+          return rate;
+          break;
+    
+          case "HLF": 
+          rate = HLFRate;
+          return rate;
+          break;
+    
+          case "DOGE": 
+          rate = DOGERate;
+          return rate;
+          break;
+      } 
+}
+
+function getRates() {
+
+  fetch('http://localhost:8080/all')
+  .then(response => {
+    if (!response.ok) {
+      return response.status;
+    } else {
+      return response.json();
+    }
+  })
+  .then (response => {
+    var num = response.length;
+
+    for(var i = 0; i < num; i ++) {
+      var currency = response[i];
+      document.getElementById("testAllCryptos").innerHTML += (
+        "<p>" + currency.currencyID + " " + currency.currencyName + " " + currency.exchangeRate1GBP + "</p>"
+      );
+    }
+  })
+  .catch(error => {
+    console.error('There was an error', error);
+  })
 
 }
 
 
 
+getRates();
 
 
-
-
-  
-  function getAllSpecialists() {
-    fetch('http://localhost:8080/all')
-    .then(response => {
-      if (!response.ok) {
-        return response.status;
-      } else {
-        return response.json();
-      }
-    })
-    .then (response => {
-      var num = response.length;
-  
-      for(var i = 0; i < num; i ++) {
-        var specialist = response[i];
-        document.getElementById("allSpecialists").innerHTML += (
-          "<p>" + specialist.id + " " + specialist.first_name + " " + specialist.last_name + "</p>"
-        );
-      }
-    })
-    .catch(error => {
-      console.error('There was an error', error);
-    })
-  }
-  
   // getAllSpecialists();
   
   function selectSpecialist() {
