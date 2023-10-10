@@ -47,7 +47,7 @@ function displayBalances() {
 
 
 
-    document.getElementById("Jo").innerHTML = "Coversion Rate: " + BTCRate;
+    document.getElementById("BTCconversion").innerHTML = "Coversion Rate: " + BTCRate;
 }
 
 //toggles popup for public key
