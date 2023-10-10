@@ -44,6 +44,10 @@ function displayBalances() {
     document.getElementById("addCashGBPBalance").innerHTML = "£" + GBPBalance;
 
     document.getElementById("cashOutGBPBalance").innerHTML = "£" + GBPBalance;
+
+
+
+    document.getElementById("Jo").innerHTML = "Coversion Rate: " + BTCRate;
 }
 
 //toggles popup for public key
