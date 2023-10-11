@@ -24,6 +24,8 @@ var currentAccountBalance = 560.34;
 
 var savingsAccountBalance = 1231245.98;
 
+let currencyRates = {};
+
 
 var publicKey;
 
@@ -308,7 +310,9 @@ function getRates() {
       document.getElementById("testAllCryptos").innerHTML += (
         "<p>" + currency.currencyID + " " + currency.currencyName + " " + currency.exchangeRate1GBP + "</p>"
       );
+
     }
+    
   })
   .catch(error => {
     console.error('There was an error', error);
@@ -316,9 +320,46 @@ function getRates() {
 
 }
 
+function getCryptoInfo(currency) {
+
+  //gets info from database 
+
+  fetch('http://localhost:8080/combined?CurrencyID=' + currency)
+  .then(response => {
+    if (!response.ok) {
+      return response.status;
+    } else {
+      return response.json();
+    }
+  })
+  .then (response => {
+
+   currencyRates[currency] = response.currencyDTO.exchangeRate1GBP;
 
 
-getRates();
+    
+      document.getElementById("testAllCryptos").innerHTML += (
+        "<p>" + response.currencyDTO.currencyID + " " + response.currencyDTO.currencyName + " " + currencyRates[currency] + "</p>")
+    
+        
+    
+    
+  })
+  .catch(error => {
+    console.error('There was an error', error);
+  })
+}
+
+
+// getRates();
+
+getCryptoInfo('BTC');
+getCryptoInfo('BBK');
+getCryptoInfo('HLF');
+getCryptoInfo('DOGE');
+
+
+
 
 
   // getAllSpecialists();
