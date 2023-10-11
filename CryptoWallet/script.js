@@ -26,6 +26,8 @@ var savingsAccountBalance = 1231245.98;
 
 let currencyRates = {};
 
+let currencyBalances = {};
+
 
 var publicKey;
 
@@ -69,7 +71,7 @@ function toggleBalance() {
   if (largeBalance.classList.contains('largeTotalBalance')) {
 
     document.getElementById("largeHomeBalanceTitle").innerHTML = "GBP Balance:";
-    document.getElementById("largeHomeBalanceValue").innerHTML = "£" + GBPBalance;
+    document.getElementById("largeHomeBalanceValue").innerHTML = "£" + currencyBalances['GBP'];
     largeBalance.classList.remove("largeTotalBalance");
     largeBalance.classList.add("largeGBPBalance");
 
@@ -84,6 +86,8 @@ function toggleBalance() {
   }
 }
 
+
+
 //on change of sell select box, also uses display rate and get sell balance 
 function sellCryptoBalance() {
 
@@ -91,13 +95,14 @@ function sellCryptoBalance() {
 
   var currency = document.querySelector('#sellCurrency').value;
 
-  getSellBalance(currency);
+  // getSellBalance(currency);
 
   document.getElementById("sellCryptoBalanceTitle").innerHTML = `Your ${currency} Balance:`;
-  document.getElementById("sellCryptoBalance").innerHTML = currency + " " + balance;
+  document.getElementById("sellCryptoBalance").innerHTML = currencyBalances[currency];
 
 }
 
+//shouldn't be needed now
 function getSellBalance(currency) {
 
   switch(currency){
@@ -145,6 +150,7 @@ function hideModal(button) {
 
   document.getElementById(button + "Form").reset();
     document.getElementById(button + "Modal").style.display = "none";
+    refreshInfo();
 }
 
 
@@ -153,8 +159,9 @@ function displayRate(functionModal) {
     
   var currency = document.querySelector("#" + functionModal + "Currency").value;
 
-  GBPRate = getGBPRate(currency);
+  // GBPRate = getGBPRate(currency);
 
+  GBPRate = currencyRates[currency];
   
   switch(functionModal) {
 
@@ -186,7 +193,7 @@ function displayRate(functionModal) {
     document.getElementById("addCashAccountBalance").innerHTML = "Balance = £" + balance;
   }
 
-
+//shouldn't be needed any more
 function getGBPRate(currency) {
   switch(currency){
 
@@ -320,7 +327,7 @@ function getRates() {
 
 }
 
-function getCryptoInfo(currency) {
+function getCurrencyInfo(currency) {
 
   //gets info from database 
 
@@ -334,14 +341,13 @@ function getCryptoInfo(currency) {
   })
   .then (response => {
 
+    //assigns the rate to the relevant currencyID in the object
    currencyRates[currency] = response.currencyDTO.exchangeRate1GBP;
 
-
-    
       document.getElementById("testAllCryptos").innerHTML += (
         "<p>" + response.currencyDTO.currencyID + " " + response.currencyDTO.currencyName + " " + currencyRates[currency] + "</p>")
     
-        
+     currencyBalances[currency] = response.balanceDTO.currencyBalance;   
     
     
   })
@@ -350,15 +356,17 @@ function getCryptoInfo(currency) {
   })
 }
 
-
+refreshInfo();
 // getRates();
 
-getCryptoInfo('BTC');
-getCryptoInfo('BBK');
-getCryptoInfo('HLF');
-getCryptoInfo('DOGE');
+function refreshInfo() {
+getCurrencyInfo('BTC');
+getCurrencyInfo('BBK');
+getCurrencyInfo('HLF');
+getCurrencyInfo('DOGE');
+getCurrencyInfo('GBP');
 
-
+}
 
 
 
