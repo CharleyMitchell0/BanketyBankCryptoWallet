@@ -233,11 +233,60 @@ function displayRate(functionModal) {
     }
   }
   
-  // Add event listeners to the input fields and the currency dropdown
+  // Added event listeners to the input fields and the currency dropdown
   document.getElementById("buyStartCurrency").addEventListener("input", updateConversion);
   document.getElementById("buyCurrency").addEventListener("change", updateConversion);
   document.getElementById("buyEndCurrency").addEventListener("input", updateConversion);
 
+  function updateSellConversion() {
+    var sellStartCurrencyInput = document.getElementById("sellStartCurrency");
+    var sellEndCurrencyInput = document.getElementById("sellEndCurrency");
+    var selectedCurrency = document.getElementById("sellCurrency").value;
+  
+    var sellStartCurrencyValue = parseFloat(sellStartCurrencyInput.value);
+    var sellEndCurrencyValue = parseFloat(sellEndCurrencyInput.value);
+  
+    // Update "sellEndCurrency" when "sellCurrency" is changed
+    if (document.activeElement === selectedCurrency) {
+      var inverseRate = 1 / currencyRates[selectedCurrency];
+      var convertedValue = sellStartCurrencyValue * inverseRate;
+  
+      if (!isNaN(convertedValue)) {
+        sellEndCurrencyInput.value = convertedValue.toFixed(6);
+      } else {
+        sellEndCurrencyInput.value = "";
+      }
+    }
+  
+    // Update "sellStartCurrency" when "sellEndCurrency" is changed
+    if (document.activeElement === sellEndCurrencyInput) {
+      var rate = currencyRates[selectedCurrency];
+      var convertedValue = sellEndCurrencyValue * rate;
+  
+      if (!isNaN(convertedValue)) {
+        sellStartCurrencyInput.value = convertedValue.toFixed(6);
+      } else {
+        sellStartCurrencyInput.value = "";
+      }
+    }
+
+    // Update "sellEndCurrency" when "sellStartCurrency" is changed
+    if (document.activeElement === sellStartCurrencyInput) {
+      var inverseRate = 1 / currencyRates[selectedCurrency];
+      var convertedValue = sellStartCurrencyValue * inverseRate;
+  
+      if (!isNaN(convertedValue)) {
+        sellEndCurrencyInput.value = convertedValue.toFixed(6);
+      } else {
+        sellEndCurrencyInput.value = "";
+      }
+  }
+}
+  
+  // Add event listeners to the input fields and the currency dropdown
+  document.getElementById("sellStartCurrency").addEventListener("input", updateSellConversion);
+  document.getElementById("sellCurrency").addEventListener("change", updateSellConversion);
+  document.getElementById("sellEndCurrency").addEventListener("input", updateSellConversion);
 
 function buyCrypto() {
 
