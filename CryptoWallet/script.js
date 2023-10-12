@@ -58,7 +58,7 @@ function displayBalances() {
 function togglePopup() {
   
   var popup = document.getElementById("publicKeyPopup");
-  popup.innerHTML = "Your public key is:";
+  popup.innerHTML = "Copied!";
   popup.classList.toggle("show");
 }
 
@@ -188,40 +188,55 @@ function displayRate(functionModal) {
 
 
 
-function updateConversion() {
-  var startCurrencyInput = document.getElementById("buyStartCurrency");
-  var endCurrencyInput = document.getElementById("buyEndCurrency");
-  var selectedCurrency = document.getElementById("buyCurrency").value;
-
-  if (startCurrencyInput === document.activeElement) {
-      // If "buyStartCurrency" input is focused, update "buyEndCurrency"
-      var startCurrencyValue = parseFloat(startCurrencyInput.value);
-      var rate = getGBPRate(selectedCurrency);
+  function updateConversion() {
+    var startCurrencyInput = document.getElementById("buyStartCurrency");
+    var endCurrencyInput = document.getElementById("buyEndCurrency");
+    var selectedCurrency = document.getElementById("buyCurrency").value;
+  
+    var startCurrencyValue = parseFloat(startCurrencyInput.value);
+    var endCurrencyValue = parseFloat(endCurrencyInput.value);
+  
+    // Update "buyEndCurrency" based on "buyCurrency" select change
+    if (document.activeElement === document.getElementById("buyCurrency")) {
+      var rate = currencyRates[selectedCurrency];
       var convertedValue = startCurrencyValue * rate;
-
+  
       if (!isNaN(convertedValue)) {
-          endCurrencyInput.value = convertedValue.toFixed(6); // Limit decimal places if needed
+        endCurrencyInput.value = convertedValue.toFixed(6);
       } else {
-          endCurrencyInput.value = "";
+        endCurrencyInput.value = "";
       }
-  } else {
-      // If "buyEndCurrency" input is focused, update "buyStartCurrency"
-      var endCurrencyValue = parseFloat(endCurrencyInput.value);
-      var inverseRate = 1 / getGBPRate(selectedCurrency);
+    }
+  
+    // Update "buyStartCurrency" when "buyEndCurrency" is changed
+    if (document.activeElement === endCurrencyInput) {
+      var inverseRate = 1 / currencyRates[selectedCurrency];
       var convertedValue = endCurrencyValue * inverseRate;
-
+  
       if (!isNaN(convertedValue)) {
-          startCurrencyInput.value = convertedValue.toFixed(6); // Limit decimal places if needed
+        startCurrencyInput.value = convertedValue.toFixed(6);
       } else {
-          startCurrencyInput.value = "";
+        startCurrencyInput.value = "";
       }
+    }
+  
+    // Update "buyEndCurrency" when "buyStartCurrency" is changed
+    if (document.activeElement === startCurrencyInput) {
+      var rate = currencyRates[selectedCurrency];
+      var convertedValue = startCurrencyValue * rate;
+  
+      if (!isNaN(convertedValue)) {
+        endCurrencyInput.value = convertedValue.toFixed(6);
+      } else {
+        endCurrencyInput.value = "";
+      }
+    }
   }
-}
-
-// Add event listeners to the input fields
-document.getElementById("buyStartCurrency").addEventListener("input", updateConversion);
-document.getElementById("buyCurrency").addEventListener("change", updateConversion);
-document.getElementById("buyEndCurrency").addEventListener("input", updateConversion);
+  
+  // Add event listeners to the input fields and the currency dropdown
+  document.getElementById("buyStartCurrency").addEventListener("input", updateConversion);
+  document.getElementById("buyCurrency").addEventListener("change", updateConversion);
+  document.getElementById("buyEndCurrency").addEventListener("input", updateConversion);
 
 
 function buyCrypto() {
