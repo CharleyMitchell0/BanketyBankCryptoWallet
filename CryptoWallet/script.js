@@ -33,23 +33,25 @@ var publicKey;
 
 function displayBalances() {
 
-    document.getElementById("largeHomeBalanceValue").innerHTML = "£" + totalBalance;
+  totalBalance = calculateBalanceTotal();
 
-    document.getElementById("BTCBalance").innerHTML = "BTC " + BTCBalance;
+    document.getElementById("largeHomeBalanceValue").innerHTML = "£" + totalBalance.toFixed(2);
 
-    document.getElementById("BBKBalance").innerHTML = "BBK " + BBKBalance;
+    document.getElementById("BTCBalance").innerHTML = "BTC " + currencyBalances['BTC'];
 
-    document.getElementById("HLFBalance").innerHTML = "HLF " + HLFBalance;
+    document.getElementById("BBKBalance").innerHTML = "BBK " + currencyBalances['BBK'];
 
-    document.getElementById("DOGEBalance").innerHTML = "DOGE " + DOGEBalance;
+    document.getElementById("HLFBalance").innerHTML = "HLF " + currencyBalances['HLF'];
 
-    document.getElementById("buyGBPBalance").innerHTML = "£" + GBPBalance;
+    document.getElementById("DOGEBalance").innerHTML = "DOGE " + currencyBalances['DOGE'];
 
-    document.getElementById("sellCryptoBalance").innerHTML = "BTC " + BTCBalance;
+    document.getElementById("buyGBPBalance").innerHTML = "£" + currencyBalances['GBP'];
 
-    document.getElementById("addCashGBPBalance").innerHTML = "£" + GBPBalance;
+    document.getElementById("sellCryptoBalance").innerHTML = "BTC " + currencyBalances['BTC'];
 
-    document.getElementById("cashOutGBPBalance").innerHTML = "£" + GBPBalance;
+    document.getElementById("addCashGBPBalance").innerHTML = "£" + currencyBalances['GBP'];
+
+    document.getElementById("cashOutGBPBalance").innerHTML = "£" + currencyBalances['GBP'];
 }
 
 //toggles popup for public key
@@ -71,7 +73,7 @@ function toggleBalance() {
   if (largeBalance.classList.contains('largeTotalBalance')) {
 
     document.getElementById("largeHomeBalanceTitle").innerHTML = "GBP Balance:";
-    document.getElementById("largeHomeBalanceValue").innerHTML = "£" + currencyBalances['GBP'];
+    document.getElementById("largeHomeBalanceValue").innerHTML = "£" + currencyBalances['GBP'].toFixed(2);
     largeBalance.classList.remove("largeTotalBalance");
     largeBalance.classList.add("largeGBPBalance");
 
@@ -79,11 +81,28 @@ function toggleBalance() {
   } else {
 
     document.getElementById("largeHomeBalanceTitle").innerHTML = "Total Balance:";
-    document.getElementById("largeHomeBalanceValue").innerHTML = "£" + totalBalance;
+    document.getElementById("largeHomeBalanceValue").innerHTML = "£" + totalBalance.toFixed(2);
     largeBalance.classList.add("largeTotalBalance");
     largeBalance.classList.remove("largeGBPBalance");
 
   }
+}
+
+
+function calculateBalanceTotal() {
+
+  // const currencies = ['BTC', 'BBK', 'HLF', 'DOGE', 'GBP'];
+
+  // let i = 0;
+
+  // for (let i = 0; i < currencies.length; i++) {
+
+  // }
+  
+  total = convertToGBP('BTC') + convertToGBP('BBK') + convertToGBP('HLF') + convertToGBP('DOGE') + convertToGBP('GBP');
+
+  return total;
+
 }
 
 
@@ -98,36 +117,10 @@ function sellCryptoBalance() {
   // getSellBalance(currency);
 
   document.getElementById("sellCryptoBalanceTitle").innerHTML = `Your ${currency} Balance:`;
-  document.getElementById("sellCryptoBalance").innerHTML = currencyBalances[currency];
+  document.getElementById("sellCryptoBalance").innerHTML = currencyBalances[currency].toFixed(8);
 
 }
 
-//shouldn't be needed now
-function getSellBalance(currency) {
-
-  switch(currency){
-
-    case "BTC": 
-      balance = BTCBalance;
-      return balance;
-      break;
-
-    case "BBK": 
-      balance = BBKBalance;
-      return balance;
-      break;
-
-      case "HLF": 
-      balance = HLFBalance;
-      return balance;
-      break;
-
-      case "DOGE": 
-      balance = DOGEBalance;
-      return balance;
-      break;
-  }
-}
 
 
 //displays modal for each function 
@@ -193,32 +186,7 @@ function displayRate(functionModal) {
     document.getElementById("addCashAccountBalance").innerHTML = "Balance = £" + balance;
   }
 
-//shouldn't be needed any more
-function getGBPRate(currency) {
-  switch(currency){
 
-    case "BTC": 
-      rate = BTCRate;
-      return rate;
-      break;
-
-    case "BBK": 
-      rate = BBKRate;
-      return rate;
-      break;
-
-      case "HLF": 
-      rate = HLFRate;
-      return rate;
-      break;
-
-      case "DOGE": 
-      rate = DOGERate;
-      return rate;
-      break;
-  } 
-
-}
 
 function updateConversion() {
   var startCurrencyInput = document.getElementById("buyStartCurrency");
@@ -268,11 +236,18 @@ function buyCrypto() {
       
      changeCryptoBalance(selectedCurrency, endCurrencyInput);
       
-     displayBalances();
      
       hideModal('buy');
   }
 
+}
+
+// converts the currency to a GBP value
+function convertToGBP(currency) {
+
+  let GBPValue = currencyBalances[currency] * currencyRates[currency];
+
+  return GBPValue;
 }
 
 function changeCryptoBalance(currency, endCurrencyInput) {
@@ -327,7 +302,7 @@ function getRates() {
 
 }
 
-function getCurrencyInfo(currency) {
+function getCurrencyInfo(currency, callback) {
 
   //gets info from database 
 
@@ -344,12 +319,14 @@ function getCurrencyInfo(currency) {
     //assigns the rate to the relevant currencyID in the object
    currencyRates[currency] = response.currencyDTO.exchangeRate1GBP;
 
-      document.getElementById("testAllCryptos").innerHTML += (
-        "<p>" + response.currencyDTO.currencyID + " " + response.currencyDTO.currencyName + " " + currencyRates[currency] + "</p>")
+
+   //Below is a test to show the database info on the homepage
+      // document.getElementById("testAllCryptos").innerHTML += (
+      //   "<p>" + response.currencyDTO.currencyID + " " + response.currencyDTO.currencyName + " " + currencyRates[currency] + "</p>")
     
      currencyBalances[currency] = response.balanceDTO.currencyBalance;   
     
-    
+    callback();
   })
   .catch(error => {
     console.error('There was an error', error);
@@ -359,63 +336,25 @@ function getCurrencyInfo(currency) {
 refreshInfo();
 // getRates();
 
-function refreshInfo() {
-getCurrencyInfo('BTC');
-getCurrencyInfo('BBK');
-getCurrencyInfo('HLF');
-getCurrencyInfo('DOGE');
-getCurrencyInfo('GBP');
 
+function refreshInfo() {
+
+  let count = 0;
+
+  const currencies = ['BTC', 'BBK', 'HLF', 'DOGE', 'GBP'];
+
+  function handleCallback() {
+    count++;
+    if (count === currencies.length) {
+        displayBalances();
+    }
+}
+
+// Retrieve data for each currency with a callback
+currencies.forEach(currency => {
+    getCurrencyInfo(currency, handleCallback);
+});
 }
 
 
 
-  // getAllSpecialists();
-  
-  function selectSpecialist() {
-    // Get the selected values from the form
-    var supportArea = document.querySelector('input[name="supportArea"]:checked').value;
-    var region = document.querySelector('#region').value;
-  
-    if((supportArea != "") && (region != "" )) {
-  
-    
-    var hubAddress;
-    var hubPhoneNumber;
-    var specialistName;
-  
-    fetch('http://localhost:8080/test/' + supportArea + '/' + region)
-    .then(response => {
-      if (!response.ok) {
-        return response.status;
-      } else {
-        return response.json();
-      }
-    })
-    .then(response => {
-      if (typeof response === 'object') {
-        // Check if the response is a valid JSON object
-        console.log(response); // Print the response to the console
-        
-        document.getElementById('specialistName').innerHTML = response.specialistDTO.first_name + ' '  + response.specialistDTO.last_name;
-        document.getElementById('specialistCallBack').innerHTML = response.specialistDTO.first_name;
-  
-        document.getElementById('hubAddress').innerHTML = response.hubDTO.address;
-        document.getElementById('hubPhoneNumber').innerHTML = '0' + response.hubDTO.phone_number;
-      } else {
-        console.error('Invalid JSON response:', response);
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-  
-  } else {
-    window.alert('Test');
-      document.getElementById('invalidInput').style.display = 'flex';
-  }
-  
-  
-  }
-
-  displayBalances();
