@@ -425,25 +425,17 @@ currencies.forEach(currency => {
 }
 
 
-function updateBalance(currency, amount) {
-  fetch('http://localhost:8080/updateBalance', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ currency, amount }), 
-  })
-      .then(response => {
-          if (response.status === 200) {
-              // Handle success
-              refreshInfo();
-          } else {
-              // Handle error
-          }
-      })
-      .catch(error => {
-          // Handle network error
-      });
-}
+  function updateBalance(CurrencyID, CurrencyBalance) {
 
-
+    
+  
+    fetch('http://localhost:8080/update/' + CurrencyID + '/' + CurrencyBalance) 
+    .then(response => {
+      if (!response.ok) {
+        return response.status;
+      } 
+    })
+    .catch(error => {
+      console.error('There was an error', error);
+    })
+  }
