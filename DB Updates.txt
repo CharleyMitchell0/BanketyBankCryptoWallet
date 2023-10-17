@@ -1,0 +1,9 @@
+UPDATE balance SET currencyBalance = 375.94 WHERE currencyID = 'GBP';
+
+UPDATE balance SET currencyBalance = 4796 WHERE currencyID = 'DOGE';
+
+UPDATE balance SET currencyBalance = 897.945 WHERE currencyID = 'HLF';
+
+UPDATE balance SET currencyBalance = 0.00089123 WHERE currencyID = 'BBK';
+
+UPDATE balance SET currencyBalance = 0.00016782 WHERE currencyID = 'BTC';
