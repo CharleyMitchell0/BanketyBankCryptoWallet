@@ -297,8 +297,12 @@ function buyCrypto() {
   if(confirm(`Are you sure you want to buy ${endCurrencyInput} ${selectedCurrency} with £${startCurrencyInput}?`)) {
       GBPBalance = GBPBalance - startCurrencyInput;
 
-      
-     changeCryptoBalance(selectedCurrency, endCurrencyInput);
+      var newGBPBalance = currencyBalances['GBP'] - parseFloat(startCurrencyInput);
+
+      updateBalance('GBP', newGBPBalance);
+
+      var newBalance = parseFloat(endCurrencyInput) + currencyBalances[selectedCurrency];
+     updateBalance(selectedCurrency, newBalance);
       
      
       hideModal('buy');
@@ -420,5 +424,26 @@ currencies.forEach(currency => {
 });
 }
 
+
+function updateBalance(currency, amount) {
+  fetch('http://localhost:8080/updateBalance', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ currency, amount }), 
+  })
+      .then(response => {
+          if (response.status === 200) {
+              // Handle success
+              refreshInfo();
+          } else {
+              // Handle error
+          }
+      })
+      .catch(error => {
+          // Handle network error
+      });
+}
 
 
