@@ -1,25 +1,3 @@
-var totalBalance = 120000;
-
-var BTCBalance = 0.0001;
-
-var BBKBalance = 0.00089;
-
-var HLFBalance = 786.834;
-
-var DOGEBalance = 3685;
-
-var GBPBalance = 264.83;
-
-
-var BTCRate = 0.000044292969557;
-
-var BBKRate = 0.00334234624;
-
-var HLFRate  = 10.09832679798;
-
-var DOGERate = 19.90261913532077;
-
-
 var currentAccountBalance = 560.34;
 
 var savingsAccountBalance = 1231245.98;
@@ -45,13 +23,13 @@ function displayBalances() {
 
     document.getElementById("DOGEBalance").innerHTML = "DOGE " + currencyBalances['DOGE'];
 
-    document.getElementById("buyGBPBalance").innerHTML = "£" + currencyBalances['GBP'];
+    document.getElementById("buyGBPBalance").innerHTML = "£" + currencyBalances['GBP'].toFixed(2);
 
     document.getElementById("sellCryptoBalance").innerHTML = "BTC " + currencyBalances['BTC'];
 
-    document.getElementById("addCashGBPBalance").innerHTML = "£" + currencyBalances['GBP'];
+    document.getElementById("addCashGBPBalance").innerHTML = "£" + currencyBalances['GBP'].toFixed(2);
 
-    document.getElementById("cashOutGBPBalance").innerHTML = "£" + currencyBalances['GBP'];
+    document.getElementById("cashOutGBPBalance").innerHTML = "£" + currencyBalances['GBP'].toFixed(2);
 }
 
 //toggles popup for public key
@@ -90,14 +68,6 @@ function toggleBalance() {
 
 
 function calculateBalanceTotal() {
-
-  // const currencies = ['BTC', 'BBK', 'HLF', 'DOGE', 'GBP'];
-
-  // let i = 0;
-
-  // for (let i = 0; i < currencies.length; i++) {
-
-  // }
   
   total = convertToGBP('BTC') + convertToGBP('BBK') + convertToGBP('HLF') + convertToGBP('DOGE') + convertToGBP('GBP');
 
@@ -113,8 +83,6 @@ function sellCryptoBalance() {
   displayRate('sell');
 
   var currency = document.querySelector('#sellCurrency').value;
-
-  // getSellBalance(currency);
 
   document.getElementById("sellCryptoBalanceTitle").innerHTML = `Your ${currency} Balance:`;
   document.getElementById("sellCryptoBalance").innerHTML = currencyBalances[currency].toFixed(8);
@@ -140,10 +108,11 @@ function hideModal(button) {
   document.getElementById(button + "AccountBalance").innerHTML ="";
 
 }
-
+  
   document.getElementById(button + "Form").reset();
+  refreshInfo();
     document.getElementById(button + "Modal").style.display = "none";
-    refreshInfo();
+    
 }
 
 
@@ -294,21 +263,65 @@ function buyCrypto() {
   var endCurrencyInput = document.getElementById("buyEndCurrency").value;
   var selectedCurrency = document.getElementById("buyCurrency").value;
 
-  if(confirm(`Are you sure you want to buy ${endCurrencyInput} ${selectedCurrency} with £${startCurrencyInput}?`)) {
-      GBPBalance = GBPBalance - startCurrencyInput;
+  var check = checkBalance('GBP', startCurrencyInput);
 
-      var newGBPBalance = currencyBalances['GBP'] - parseFloat(startCurrencyInput);
+  if (check === true) { 
 
-      updateBalance('GBP', newGBPBalance);
+    if(confirm(`Are you sure you want to buy ${endCurrencyInput} ${selectedCurrency} with £${startCurrencyInput}?`)) {
 
-      var newBalance = parseFloat(endCurrencyInput) + currencyBalances[selectedCurrency];
-     updateBalance(selectedCurrency, newBalance);
+        var newGBPBalance = currencyBalances['GBP'] - parseFloat(startCurrencyInput);
+
+        updateBalance('GBP', newGBPBalance);
+
+        var newBalance = parseFloat(endCurrencyInput) + currencyBalances[selectedCurrency];
+      updateBalance(selectedCurrency, newBalance);
+        
       
-     
-      hideModal('buy');
+        hideModal('buy');
+    } 
+  } else {
+    window.alert('Insufficient funds.');
   }
 
 }
+
+
+function sellCrypto() {
+
+  var startCurrencyInput = document.getElementById("sellStartCurrency").value;
+  var endCurrencyInput = document.getElementById("sellEndCurrency").value;
+  var selectedCurrency = document.getElementById("sellCurrency").value;
+
+  var check = checkBalance(selectedCurrency, startCurrencyInput);
+  
+  if (check === true) { 
+
+    if(confirm(`Are you sure you want to sell ${selectedCurrency} ${startCurrencyInput} for £${endCurrencyInput}?`)) {
+
+        var newGBPBalance = currencyBalances['GBP'] + parseFloat(endCurrencyInput);
+
+        updateBalance('GBP', newGBPBalance);
+
+        var newBalance =  currencyBalances[selectedCurrency] - parseFloat(startCurrencyInput);
+
+      updateBalance(selectedCurrency, newBalance);
+
+        hideModal('sell');
+    }
+
+} else {
+  window.alert('Insufficient funds.');
+}
+
+}
+
+function checkBalance(currency, amount) {
+  if (amount <= currencyBalances[currency]) {
+    return true;
+  }
+}
+
+
 
 // converts the currency to a GBP value
 function convertToGBP(currency) {
@@ -318,29 +331,7 @@ function convertToGBP(currency) {
   return GBPValue;
 }
 
-function changeCryptoBalance(currency, endCurrencyInput) {
-  switch(currency){
 
-        case "BTC": 
-          BTCBalance = BTCBalance + endCurrencyInput;
-          break;
-    
-        case "BBK": 
-          rate = BBKRate;
-          return rate;
-          break;
-    
-          case "HLF": 
-          rate = HLFRate;
-          return rate;
-          break;
-    
-          case "DOGE": 
-          rate = DOGERate;
-          return rate;
-          break;
-      } 
-}
 
 function getRates() {
 
