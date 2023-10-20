@@ -6,8 +6,9 @@ let currencyRates = {};
 
 let currencyBalances = {};
 
-
 var publicKey;
+
+
 
 function displayBalances() {
 
@@ -32,6 +33,18 @@ function displayBalances() {
     document.getElementById("cashOutGBPBalance").innerHTML = "£" + currencyBalances['GBP'].toFixed(2);
 }
 
+//on change of sell select box, also uses display rate and get sell balance 
+function sellCryptoBalance() {
+
+  displayRate('sell');
+
+  var currency = document.querySelector('#sellCurrency').value;
+
+  document.getElementById("sellCryptoBalanceTitle").innerHTML = `Your ${currency} Balance:`;
+  document.getElementById("sellCryptoBalance").innerHTML = currencyBalances[currency].toFixed(8);
+
+}
+
 //toggles popup for public key
 function togglePopup() {
   
@@ -39,6 +52,8 @@ function togglePopup() {
   popup.innerHTML = "Copied!";
   popup.classList.toggle("show");
 }
+
+
 
 //changes between total & GBP balance
 function toggleBalance() {
@@ -75,20 +90,13 @@ function calculateBalanceTotal() {
 
 }
 
+// converts the currency to a GBP value
+function convertToGBP(currency) {
 
+  let GBPValue = currencyBalances[currency] / currencyRates[currency];
 
-//on change of sell select box, also uses display rate and get sell balance 
-function sellCryptoBalance() {
-
-  displayRate('sell');
-
-  var currency = document.querySelector('#sellCurrency').value;
-
-  document.getElementById("sellCryptoBalanceTitle").innerHTML = `Your ${currency} Balance:`;
-  document.getElementById("sellCryptoBalance").innerHTML = currencyBalances[currency].toFixed(8);
-
+  return GBPValue;
 }
-
 
 
 //displays modal for each function 
@@ -323,13 +331,6 @@ function checkBalance(currency, amount) {
 
 
 
-// converts the currency to a GBP value
-function convertToGBP(currency) {
-
-  let GBPValue = currencyBalances[currency] * currencyRates[currency];
-
-  return GBPValue;
-}
 
 
 
