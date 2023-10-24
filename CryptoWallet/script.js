@@ -44,6 +44,19 @@ function displayBalances() {
     document.getElementById("addCashGBPBalance").innerHTML = "£" + GBPBalance;
 
     document.getElementById("cashOutGBPBalance").innerHTML = "£" + GBPBalance;
+
+
+
+    document.getElementById("BTCconversion").innerHTML = "Conversion Rate: " +BTCRate;
+
+    document.getElementById("BBKconversion").innerHTML = "Conversion Rate: " +BBKRate;
+
+    document.getElementById("HLFconversion").innerHTML = "Conversion Rate: " +HLFRate;
+
+    document.getElementById("DOGEconversion").innerHTML = "Conversion Rate: " +DOGERate;
+
+
+
 }
 
 //toggles popup for public key
