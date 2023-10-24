@@ -16,17 +16,17 @@ function displayBalances() {
 
     document.getElementById("largeHomeBalanceValue").innerHTML = "£" + totalBalance.toFixed(2);
 
-    document.getElementById("BTCBalance").innerHTML = "BTC " + currencyBalances['BTC'];
+    document.getElementById("BTCBalance").innerHTML = "BTC " + currencyBalances['BTC'].toFixed(8);
 
-    document.getElementById("BBKBalance").innerHTML = "BBK " + currencyBalances['BBK'];
+    document.getElementById("BBKBalance").innerHTML = "BBK " + currencyBalances['BBK'].toFixed(8);
 
-    document.getElementById("HLFBalance").innerHTML = "HLF " + currencyBalances['HLF'];
+    document.getElementById("HLFBalance").innerHTML = "HLF " + currencyBalances['HLF'].toFixed(8);
 
-    document.getElementById("DOGEBalance").innerHTML = "DOGE " + currencyBalances['DOGE'];
+    document.getElementById("DOGEBalance").innerHTML = "DOGE " + currencyBalances['DOGE'].toFixed(8);
 
     document.getElementById("buyGBPBalance").innerHTML = "£" + currencyBalances['GBP'].toFixed(2);
 
-    document.getElementById("sellCryptoBalance").innerHTML = "BTC " + currencyBalances['BTC'];
+    document.getElementById("sellCryptoBalance").innerHTML = "BTC " + currencyBalances['BTC'].toFixed(8);
 
     document.getElementById("addCashGBPBalance").innerHTML = "£" + currencyBalances['GBP'].toFixed(2);
 
