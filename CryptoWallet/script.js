@@ -1,82 +1,101 @@
-var totalBalance = 120000;
-
-var BTCBalance = 0.0001;
-
-var BBKBalance = 0.00089;
-
-var HLFBalance = 786.834;
-
-var DOGEBalance = 3685;
-
-var GBPBalance = 264.83;
-
-
-var BTCRate = 0.000044292969557;
-
-var BBKRate = 0.00334234624;
-
-var HLFRate  = 10.09832679798;
-
-var DOGERate = 19.90261913532077;
-
-
 var currentAccountBalance = 560.34;
 
 var savingsAccountBalance = 1231245.98;
 
+let currencyRates = {};
+
+let currencyBalances = {};
 
 var publicKey;
 
+
+
 function displayBalances() {
 
-    document.getElementById("largeHomeBalanceValue").innerHTML = "£" + totalBalance;
+  totalBalance = calculateBalanceTotal();
 
-    document.getElementById("BTCBalance").innerHTML = "BTC " + BTCBalance;
+    document.getElementById("largeHomeBalanceValue").innerHTML = "£" + totalBalance.toFixed(2);
 
-    document.getElementById("BBKBalance").innerHTML = "BBK " + BBKBalance;
+    document.getElementById("BTCBalance").innerHTML = "BTC " + currencyBalances['BTC'].toFixed(8);
 
-    document.getElementById("HLFBalance").innerHTML = "HLF " + HLFBalance;
+    document.getElementById("BBKBalance").innerHTML = "BBK " + currencyBalances['BBK'].toFixed(8);
 
-    document.getElementById("DOGEBalance").innerHTML = "DOGE " + DOGEBalance;
+    document.getElementById("HLFBalance").innerHTML = "HLF " + currencyBalances['HLF'].toFixed(8);
 
-    document.getElementById("buyGBPBalance").innerHTML = "£" + GBPBalance;
+    document.getElementById("DOGEBalance").innerHTML = "DOGE " + currencyBalances['DOGE'].toFixed(8);
 
-    document.getElementById("addCashGBPBalance").innerHTML = "£" + GBPBalance;
+    document.getElementById("buyGBPBalance").innerHTML = "£" + currencyBalances['GBP'].toFixed(2);
 
-    document.getElementById("cashOutGBPBalance").innerHTML = "£" + GBPBalance;
+    document.getElementById("sellCryptoBalance").innerHTML = "BTC " + currencyBalances['BTC'].toFixed(8);
+
+    document.getElementById("addCashGBPBalance").innerHTML = "£" + currencyBalances['GBP'].toFixed(2);
+
+    document.getElementById("cashOutGBPBalance").innerHTML = "£" + currencyBalances['GBP'].toFixed(2);
+}
+
+//on change of sell select box, also uses display rate and get sell balance 
+function sellCryptoBalance() {
+
+  displayRate('sell');
+
+  var currency = document.querySelector('#sellCurrency').value;
+
+  document.getElementById("sellCryptoBalanceTitle").innerHTML = `Your ${currency} Balance:`;
+  document.getElementById("sellCryptoBalance").innerHTML = currencyBalances[currency].toFixed(8);
+
 }
 
 //toggles popup for public key
 function togglePopup() {
   
   var popup = document.getElementById("publicKeyPopup");
-  popup.innerHTML = "Your public key is:";
+  popup.innerHTML = "Copied!";
   popup.classList.toggle("show");
 }
 
+
+
+//changes between total & GBP balance
 function toggleBalance() {
+
+  //selects the homepage balance
   var largeBalance = document.getElementById("largeHomeBalance");
   document.getElementById("largeHomeBalance").style.transition = "all 0.3s";
 
+  //if set to total balance then change to GBP
   if (largeBalance.classList.contains('largeTotalBalance')) {
 
     document.getElementById("largeHomeBalanceTitle").innerHTML = "GBP Balance:";
-    document.getElementById("largeHomeBalanceValue").innerHTML = "£" + GBPBalance;
+    document.getElementById("largeHomeBalanceValue").innerHTML = "£" + currencyBalances['GBP'].toFixed(2);
     largeBalance.classList.remove("largeTotalBalance");
     largeBalance.classList.add("largeGBPBalance");
 
+    //if set to GBP then change to total
   } else {
 
     document.getElementById("largeHomeBalanceTitle").innerHTML = "Total Balance:";
-    document.getElementById("largeHomeBalanceValue").innerHTML = "£" + totalBalance;
+    document.getElementById("largeHomeBalanceValue").innerHTML = "£" + totalBalance.toFixed(2);
     largeBalance.classList.add("largeTotalBalance");
     largeBalance.classList.remove("largeGBPBalance");
 
   }
 }
 
-function sellCryptoBalance() {
+
+function calculateBalanceTotal() {
   
+  total = convertToGBP('BTC') + convertToGBP('BBK') + convertToGBP('HLF') + convertToGBP('DOGE') + convertToGBP('GBP');
+
+  return total;
+
+}
+
+// converts the currency to a GBP value
+function convertToGBP(currency) {
+
+  let GBPValue = currencyBalances[currency] / currencyRates[currency];
+
+  return GBPValue;
 }
 
 
@@ -97,9 +116,11 @@ function hideModal(button) {
   document.getElementById(button + "AccountBalance").innerHTML ="";
 
 }
-
+  
   document.getElementById(button + "Form").reset();
+  refreshInfo();
     document.getElementById(button + "Modal").style.display = "none";
+    
 }
 
 
@@ -108,8 +129,9 @@ function displayRate(functionModal) {
     
   var currency = document.querySelector("#" + functionModal + "Currency").value;
 
-  GBPRate = getGBPRate(currency);
+  // GBPRate = getGBPRate(currency);
 
+  GBPRate = currencyRates[currency];
   
   switch(functionModal) {
 
@@ -138,71 +160,110 @@ function displayRate(functionModal) {
         break;
     }
 
-    document.getElementById("addCashAccountBalance").innerHTML = "Balance = £" + balance;
+    document.getElementById("addCashAccountBalance").innerHTML = `Balance = £ ${balance.toFixed(2)}`;
   }
 
 
-function getGBPRate(currency) {
-  switch(currency){
 
-    case "BTC": 
-      rate = BTCRate;
-      return rate;
-      break;
-
-    case "BBK": 
-      rate = BBKRate;
-      return rate;
-      break;
-
-      case "HLF": 
-      rate = HLFRate;
-      return rate;
-      break;
-
-      case "DOGE": 
-      rate = DOGERate;
-      return rate;
-      break;
-  } 
-
-}
-
-function updateConversion() {
-  var startCurrencyInput = document.getElementById("buyStartCurrency");
-  var endCurrencyInput = document.getElementById("buyEndCurrency");
-  var selectedCurrency = document.getElementById("buyCurrency").value;
-
-  if (startCurrencyInput === document.activeElement) {
-      // If "buyStartCurrency" input is focused, update "buyEndCurrency"
-      var startCurrencyValue = parseFloat(startCurrencyInput.value);
-      var rate = getGBPRate(selectedCurrency);
+  function updateConversion() {
+    var startCurrencyInput = document.getElementById("buyStartCurrency");
+    var endCurrencyInput = document.getElementById("buyEndCurrency");
+    var selectedCurrency = document.getElementById("buyCurrency").value;
+  
+    var startCurrencyValue = parseFloat(startCurrencyInput.value);
+    var endCurrencyValue = parseFloat(endCurrencyInput.value);
+  
+    // Update "buyEndCurrency" based on "buyCurrency" select change
+    if (document.activeElement === document.getElementById("buyCurrency")) {
+      var rate = currencyRates[selectedCurrency];
       var convertedValue = startCurrencyValue * rate;
-
+  
       if (!isNaN(convertedValue)) {
-          endCurrencyInput.value = convertedValue.toFixed(6); // Limit decimal places if needed
+        endCurrencyInput.value = convertedValue.toFixed(6);
       } else {
-          endCurrencyInput.value = "";
+        endCurrencyInput.value = "";
       }
-  } else {
-      // If "buyEndCurrency" input is focused, update "buyStartCurrency"
-      var endCurrencyValue = parseFloat(endCurrencyInput.value);
-      var inverseRate = 1 / getGBPRate(selectedCurrency);
+    }
+  
+    // Update "buyStartCurrency" when "buyEndCurrency" is changed
+    if (document.activeElement === endCurrencyInput) {
+      var inverseRate = 1 / currencyRates[selectedCurrency];
       var convertedValue = endCurrencyValue * inverseRate;
-
+  
       if (!isNaN(convertedValue)) {
-          startCurrencyInput.value = convertedValue.toFixed(6); // Limit decimal places if needed
+        startCurrencyInput.value = convertedValue.toFixed(6);
       } else {
-          startCurrencyInput.value = "";
+        startCurrencyInput.value = "";
+      }
+    }
+  
+    // Update "buyEndCurrency" when "buyStartCurrency" is changed
+    if (document.activeElement === startCurrencyInput) {
+      var rate = currencyRates[selectedCurrency];
+      var convertedValue = startCurrencyValue * rate;
+  
+      if (!isNaN(convertedValue)) {
+        endCurrencyInput.value = convertedValue.toFixed(6);
+      } else {
+        endCurrencyInput.value = "";
+      }
+    }
+  }
+  
+  // Added event listeners to the input fields and the currency dropdown
+  document.getElementById("buyStartCurrency").addEventListener("input", updateConversion);
+  document.getElementById("buyCurrency").addEventListener("change", updateConversion);
+  document.getElementById("buyEndCurrency").addEventListener("input", updateConversion);
+
+  function updateSellConversion() {
+    var sellStartCurrencyInput = document.getElementById("sellStartCurrency");
+    var sellEndCurrencyInput = document.getElementById("sellEndCurrency");
+    var selectedCurrency = document.getElementById("sellCurrency").value;
+  
+    var sellStartCurrencyValue = parseFloat(sellStartCurrencyInput.value);
+    var sellEndCurrencyValue = parseFloat(sellEndCurrencyInput.value);
+  
+    // Update "sellEndCurrency" when "sellCurrency" is changed
+    if (document.activeElement === selectedCurrency) {
+      var inverseRate = 1 / currencyRates[selectedCurrency];
+      var convertedValue = sellStartCurrencyValue * inverseRate;
+  
+      if (!isNaN(convertedValue)) {
+        sellEndCurrencyInput.value = convertedValue.toFixed(6);
+      } else {
+        sellEndCurrencyInput.value = "";
+      }
+    }
+  
+    // Update "sellStartCurrency" when "sellEndCurrency" is changed
+    if (document.activeElement === sellEndCurrencyInput) {
+      var rate = currencyRates[selectedCurrency];
+      var convertedValue = sellEndCurrencyValue * rate;
+  
+      if (!isNaN(convertedValue)) {
+        sellStartCurrencyInput.value = convertedValue.toFixed(6);
+      } else {
+        sellStartCurrencyInput.value = "";
+      }
+    }
+
+    // Update "sellEndCurrency" when "sellStartCurrency" is changed
+    if (document.activeElement === sellStartCurrencyInput) {
+      var inverseRate = 1 / currencyRates[selectedCurrency];
+      var convertedValue = sellStartCurrencyValue * inverseRate;
+  
+      if (!isNaN(convertedValue)) {
+        sellEndCurrencyInput.value = convertedValue.toFixed(6);
+      } else {
+        sellEndCurrencyInput.value = "";
       }
   }
 }
-
-// Add event listeners to the input fields
-document.getElementById("buyStartCurrency").addEventListener("input", updateConversion);
-document.getElementById("buyCurrency").addEventListener("change", updateConversion);
-document.getElementById("buyEndCurrency").addEventListener("input", updateConversion);
-
+  
+  // Add event listeners to the input fields and the currency dropdown
+  document.getElementById("sellStartCurrency").addEventListener("input", updateSellConversion);
+  document.getElementById("sellCurrency").addEventListener("change", updateSellConversion);
+  document.getElementById("sellEndCurrency").addEventListener("input", updateSellConversion);
 
 function buyCrypto() {
 
@@ -210,13 +271,122 @@ function buyCrypto() {
   var endCurrencyInput = document.getElementById("buyEndCurrency").value;
   var selectedCurrency = document.getElementById("buyCurrency").value;
 
-  if(confirm(`Are you sure you want to buy ${endCurrencyInput} ${selectedCurrency} with £${startCurrencyInput}?`)) {
-      GBPBalance = GBPBalance - startCurrencyInput;
-     
-      hideModal('buy');
-      return GBPBalance; 
+  var check = checkBalance('GBP', startCurrencyInput);
+
+  if (check === true) { 
+
+    if(confirm(`Are you sure you want to buy ${endCurrencyInput} ${selectedCurrency} with £${startCurrencyInput}?`)) {
+
+        var newGBPBalance = currencyBalances['GBP'] - parseFloat(startCurrencyInput);
+
+        updateBalance('GBP', newGBPBalance);
+
+        var newBalance = parseFloat(endCurrencyInput) + currencyBalances[selectedCurrency];
+      updateBalance(selectedCurrency, newBalance);
+        
+      
+        hideModal('buy');
+    } 
+  } else {
+    window.alert('Insufficient funds.');
   }
 
+}
+
+
+function sellCrypto() {
+
+  var startCurrencyInput = document.getElementById("sellStartCurrency").value;
+  var endCurrencyInput = document.getElementById("sellEndCurrency").value;
+  var selectedCurrency = document.getElementById("sellCurrency").value;
+
+  var check = checkBalance(selectedCurrency, startCurrencyInput);
+  
+  if (check === true) { 
+
+    if(confirm(`Are you sure you want to sell ${selectedCurrency} ${startCurrencyInput} for £${endCurrencyInput}?`)) {
+
+        var newGBPBalance = currencyBalances['GBP'] + parseFloat(endCurrencyInput);
+
+        updateBalance('GBP', newGBPBalance);
+
+        var newBalance =  currencyBalances[selectedCurrency] - parseFloat(startCurrencyInput);
+
+      updateBalance(selectedCurrency, newBalance);
+
+        hideModal('sell');
+    }
+
+} else {
+  window.alert('Insufficient funds.');
+}
+
+}
+
+function addCash() {
+  var account = document.querySelector("#addCashAccount").value;
+  var addCashInput = document.getElementById("addCashAmount").value;
+  
+
+  switch(account) {
+
+    case "currentAccount": 
+      var balance = currentAccountBalance;
+      break;
+
+    case "savingsAccount":
+      var balance = savingsAccountBalance;
+      break;
+  }
+
+  var check = checkAccountBalance(addCashInput, balance);
+
+  if (check === true) { 
+  
+    if(confirm(`Are you sure you want to deposit £${addCashInput} into your wallet?`)) {
+
+      var newGBPBalance = currencyBalances['GBP'] + parseFloat(addCashInput);
+
+      updateBalance('GBP', newGBPBalance);
+      
+      window.alert(`Transaction complete. Your new balance is ${newGBPBalance.toFixed(2)}`);
+
+      hideModal('addCash');
+
+      switch(account) {
+
+        case "currentAccount": 
+          currentAccountBalance = balance - parseFloat(addCashInput);
+          updateBalance(selectedCurrency, newBalance);
+          break;
+    
+        case "savingsAccount":             
+          savingsAccountBalance = balance - parseFloat(addCashInput);
+          updateBalance(selectedCurrency, newBalance);
+          break;          
+      }         
+      
+    }    
+      
+  } else {
+    window.alert('Insufficient funds.');
+  }
+}
+
+
+
+function checkBalance(currency, amount) {
+  if (amount <= currencyBalances[currency]) {
+    return true;
+  }
+
+
+}
+// this will need a switch case function to see if checking against 
+function checkAccountBalance(amount, accountBalance) {
+  if (amount <= accountBalance) {
+    return true;
+  }
 }
 
 
@@ -224,78 +394,100 @@ function buyCrypto() {
 
 
 
+function getRates() {
 
+  fetch('http://localhost:8080/all')
+  .then(response => {
+    if (!response.ok) {
+      return response.status;
+    } else {
+      return response.json();
+    }
+  })
+  .then (response => {
+    var num = response.length;
+
+    for(var i = 0; i < num; i ++) {
+      var currency = response[i];
+      document.getElementById("testAllCryptos").innerHTML += (
+        "<p>" + currency.currencyID + " " + currency.currencyName + " " + currency.exchangeRate1GBP + "</p>"
+      );
+
+    }
+    
+  })
+  .catch(error => {
+    console.error('There was an error', error);
+  })
+
+}
+
+function getCurrencyInfo(currency, callback) {
+
+  //gets info from database 
+
+  fetch('http://localhost:8080/combined?CurrencyID=' + currency)
+  .then(response => {
+    if (!response.ok) {
+      return response.status;
+    } else {
+      return response.json();
+    }
+  })
+  .then (response => {
+
+    //assigns the rate to the relevant currencyID in the object
+   currencyRates[currency] = response.currencyDTO.exchangeRate1GBP;
+
+
+   //Below is a test to show the database info on the homepage
+      // document.getElementById("testAllCryptos").innerHTML += (
+      //   "<p>" + response.currencyDTO.currencyID + " " + response.currencyDTO.currencyName + " " + currencyRates[currency] + "</p>")
+    
+     currencyBalances[currency] = response.balanceDTO.currencyBalance;   
+    
+    callback();
+  })
+  .catch(error => {
+    console.error('There was an error', error);
+  })
+}
+
+refreshInfo();
+// getRates();
+
+
+function refreshInfo() {
+
+  let count = 0;
+
+  const currencies = ['BTC', 'BBK', 'HLF', 'DOGE', 'GBP'];
+
+  function handleCallback() {
+    count++;
+    if (count === currencies.length) {
+        displayBalances();
+    }
+}
+
+// Retrieve data for each currency with a callback
+currencies.forEach(currency => {
+    getCurrencyInfo(currency, handleCallback);
+});
+}
+
+
+  function updateBalance(CurrencyID, CurrencyBalance) {
+
+    
   
-  function getAllSpecialists() {
-    fetch('http://localhost:8080/all')
+    fetch('http://localhost:8080/update/' + CurrencyID + '/' + CurrencyBalance) 
     .then(response => {
       if (!response.ok) {
         return response.status;
-      } else {
-        return response.json();
-      }
-    })
-    .then (response => {
-      var num = response.length;
-  
-      for(var i = 0; i < num; i ++) {
-        var specialist = response[i];
-        document.getElementById("allSpecialists").innerHTML += (
-          "<p>" + specialist.id + " " + specialist.first_name + " " + specialist.last_name + "</p>"
-        );
-      }
+      } 
     })
     .catch(error => {
       console.error('There was an error', error);
     })
   }
-  
-  // getAllSpecialists();
-  
-  function selectSpecialist() {
-    // Get the selected values from the form
-    var supportArea = document.querySelector('input[name="supportArea"]:checked').value;
-    var region = document.querySelector('#region').value;
-  
-    if((supportArea != "") && (region != "" )) {
-  
-    
-    var hubAddress;
-    var hubPhoneNumber;
-    var specialistName;
-  
-    fetch('http://localhost:8080/test/' + supportArea + '/' + region)
-    .then(response => {
-      if (!response.ok) {
-        return response.status;
-      } else {
-        return response.json();
-      }
-    })
-    .then(response => {
-      if (typeof response === 'object') {
-        // Check if the response is a valid JSON object
-        console.log(response); // Print the response to the console
-        
-        document.getElementById('specialistName').innerHTML = response.specialistDTO.first_name + ' '  + response.specialistDTO.last_name;
-        document.getElementById('specialistCallBack').innerHTML = response.specialistDTO.first_name;
-  
-        document.getElementById('hubAddress').innerHTML = response.hubDTO.address;
-        document.getElementById('hubPhoneNumber').innerHTML = '0' + response.hubDTO.phone_number;
-      } else {
-        console.error('Invalid JSON response:', response);
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-  
-  } else {
-    window.alert('Test');
-      document.getElementById('invalidInput').style.display = 'flex';
-  }
-  
-  
-  }
-
-  displayBalances();
