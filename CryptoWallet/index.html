@@ -18,7 +18,7 @@
 
 <body>
 
-  
+  <!-- Hi mum, I made it. Markus, testing this commit ting -->
 
     <div id="header"> <!--The whole section for the top including nav-bar-->
   
@@ -289,7 +289,7 @@
         
         <button type="button" class="cancelbtn" onclick="hideModal('addCash')">Cancel</button>
 
-        <button type="button" class="functionModalButton" id="addCashModalButton" onclick="">Add Cash</button>
+        <button type="button" class="functionModalButton" id="addCashModalButton" onclick="addCash()">Add Cash</button>
         
         </div>
     </form>
@@ -326,12 +326,13 @@
         <div class="formLineContainer">
             <label for="cashOutAccount">To:</label>
 
-            <span class=""><select class="accountSelect" id="cashOutAccount">
+            <span class=""><select class="accountSelect" id="cashOutAccount" onchange="displayCashOutAccountBalance()">
                 <option value="" disabled selected>Select an account:</option>
                 <option value="currentAccount">Current Account</option>
                 <option value="savingsAccount">Savings Account</option>
                 
             </select>
+            <p id="cashOutAccountBalance" class="output"></p>
             
 
         </div>
@@ -342,7 +343,7 @@
         
         <button type="button" class="cancelbtn" onclick="hideModal('cashOut')">Cancel</button>
 
-        <button type="button" class="functionModalButton" id="cashOutModalButton" onclick="">Cash Out</button>
+        <button type="button" class="functionModalButton" id="cashOutModalButton" onclick="cashOut()">Cash Out</button>
         
         </div>
     </form>
