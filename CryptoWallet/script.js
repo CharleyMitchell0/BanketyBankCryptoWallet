@@ -1,6 +1,6 @@
 var currentAccountBalance = 560.34;
 
-var savingsAccountBalance = 1231245.98;
+var savingsAccountBalance = 845.98;
 
 let currencyRates = {};
 
