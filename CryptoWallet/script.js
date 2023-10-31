@@ -111,7 +111,7 @@ function hideModal(button) {
   if(button == 'buy' ||  button ==  'sell') {
   document.getElementById(button + "Rate").innerHTML = ""; 
 
-} else if (button == 'addCash') {
+} else if (button == 'addCash' || button == 'cashOut') {
 
   document.getElementById(button + "AccountBalance").innerHTML ="";
 
@@ -146,6 +146,23 @@ function displayRate(functionModal) {
   }
   }
 
+  function displayCashOutAccountBalance() {
+    var account = document.querySelector("#cashOutAccount").value;
+
+    switch(account) {
+
+      case "currentAccount": 
+        var balance = currentAccountBalance;
+        break;
+
+      case "savingsAccount":
+        var balance = savingsAccountBalance;
+        break;
+    }
+
+    document.getElementById("cashOutAccountBalance").innerHTML = `Balance = £ ${balance.toFixed(2)}`;
+  }
+
   function displayAccountBalance() {
     var account = document.querySelector("#addCashAccount").value;
 
@@ -162,6 +179,7 @@ function displayRate(functionModal) {
 
     document.getElementById("addCashAccountBalance").innerHTML = `Balance = £ ${balance.toFixed(2)}`;
   }
+
 
 
 
@@ -357,12 +375,12 @@ function addCash() {
 
         case "currentAccount": 
           currentAccountBalance = balance - parseFloat(addCashInput);
-          updateBalance(selectedCurrency, newBalance);
+          // updateBalance(selectedCurrency, newBalance);
           break;
     
         case "savingsAccount":             
           savingsAccountBalance = balance - parseFloat(addCashInput);
-          updateBalance(selectedCurrency, newBalance);
+          // updateBalance(selectedCurrency, newBalance);
           break;          
       }         
       
@@ -373,6 +391,54 @@ function addCash() {
   }
 }
 
+function cashOut() {
+  var account = document.querySelector("#cashOutAccount").value;
+  var cashOutInput = document.getElementById("cashOutAmount").value;
+  
+
+  switch(account) {
+
+    case "currentAccount": 
+      var balance = currentAccountBalance;
+      break;
+
+    case "savingsAccount":
+      var balance = savingsAccountBalance;
+      break;
+  }
+  // checks if there 
+  var check = checkAccountBalance(cashOutInput, currencyBalances['GBP']);
+
+  if (check === true) { 
+  
+    if(confirm(`Are you sure you want to withdraw £${cashOutInput} from your wallet?`)) {
+
+      var newGBPBalance = currencyBalances['GBP'] - parseFloat(cashOutInput);
+
+      updateBalance('GBP', newGBPBalance);
+      
+      window.alert(`Transaction complete. Your new balance is ${newGBPBalance.toFixed(2)}`);
+
+      hideModal('cashOut');
+      
+      //update cuurent account or savings account balances with inputs from user
+      switch(account) {
+
+        case "currentAccount": 
+          currentAccountBalance = balance + parseFloat(cashOutInput);          
+          break;
+    
+        case "savingsAccount":             
+          savingsAccountBalance = balance + parseFloat(cashOutInput);         
+          break;          
+      }         
+      
+    }    
+      
+  } else {
+    window.alert('Insufficient funds.');
+  }
+}
 
 
 function checkBalance(currency, amount) {
