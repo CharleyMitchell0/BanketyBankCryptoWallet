@@ -352,6 +352,30 @@
 }
 
 
+.cryptoType {
+  margin-bottom:0;
+  padding-bottom:0;
+}
+
+.cryptoConversion {
+  margin-top: 0;
+}
+
+.cryptoTypeContainer {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.cryptoBalanceWithGBP {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  justify-content: space-around;
+  padding: 0px;
+  line-height: 0;
+}
+
 /* The Modal (background) */
 .modal {
     display: none; /* Hidden by default */

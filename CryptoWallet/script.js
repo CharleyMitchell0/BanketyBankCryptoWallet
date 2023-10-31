@@ -31,7 +31,47 @@ function displayBalances() {
     document.getElementById("addCashGBPBalance").innerHTML = "£" + currencyBalances['GBP'].toFixed(2);
 
     document.getElementById("cashOutGBPBalance").innerHTML = "£" + currencyBalances['GBP'].toFixed(2);
+
+    document.getElementById("BTCValue").innerHTML = cryptoValue('BTC');
+    
+    document.getElementById("BBKValue").innerHTML = cryptoValue('BBK');
+    
+    document.getElementById("HLFValue").innerHTML = cryptoValue('HLF');
+
+    document.getElementById("DOGEValue").innerHTML = cryptoValue('DOGE');
+    
+    document.getElementById("BTCInGBP").innerHTML = cryptoToGBP('BTC'); 
+
+    document.getElementById("BBKInGBP").innerHTML = cryptoToGBP('BBK'); 
+
+    document.getElementById("HLFInGBP").innerHTML = cryptoToGBP('HLF'); 
+
+    document.getElementById("DOGEInGBP").innerHTML = cryptoToGBP('DOGE'); 
 }
+
+function cryptoValue(currency) {
+
+  let conversion = 1 / currencyRates[currency];
+
+  let output = "£" + conversion.toFixed(2);
+
+  return output;
+}
+
+function cryptoToGBP(currency) {
+
+  let balance = currencyBalances[currency];
+
+  let conversion = balance / currencyRates[currency];
+
+  let output = "£" + conversion.toFixed(2);
+
+  return output;
+
+}
+
+
+
 
 //on change of sell select box, also uses display rate and get sell balance 
 function sellCryptoBalance() {
